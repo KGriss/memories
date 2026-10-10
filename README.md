@@ -21,9 +21,21 @@ Les termes dans le code seront donc les suivants :\
 *utilisateur* : `user`
 
 Voici la spécification des classes :\
-`Memory` : name (string), picture (image optionnal), location (string optionnal), description (string)\
-`Mind` : memories (memory list)\
+`Memory` : name (string), description (string), location (string optionnal), picture (image optionnal)\
+`Mind` : description (string), memories (memory list)\
 `Travel` : name (string), frontPicture (image), memories (memory list)\
 `User` : _voir la suite du cours CSC4101_
 
-[https://www-inf.telecom-sudparis.eu/COURS/CSC4101/projet/](https://www-inf.telecom-sudparis.eu/COURS/CSC4101/projet/)
+## Prise de note
+
+Guide de réalisation du projet [https://www-inf.telecom-sudparis.eu/COURS/CSC4101/projet/](https://www-inf.telecom-sudparis.eu/COURS/CSC4101/projet/)
+
+Pour créer une entité (ou ajouter une propriété à une entité déjà existente) :
+```symfony console make:entity```
+
+Pour mettre à jour la base de donnée (ce n'est PAS une migration) :
+```
+symfony console doctrine:database:drop --force
+touch todo.sqlite
+symfony console doctrine:schema:create
+```
