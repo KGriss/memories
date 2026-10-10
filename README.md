@@ -33,9 +33,17 @@ Guide de réalisation du projet [https://www-inf.telecom-sudparis.eu/COURS/CSC41
 Pour créer une entité (ou ajouter une propriété à une entité déjà existente) :
 ```symfony console make:entity```
 
-Pour mettre à jour la base de donnée (ce n'est PAS une migration) :
+Pour mettre à jour de force la base de donnée (n'utilise PAS les migration) (SQLite) :
 ```
-symfony console doctrine:database:drop --force
-touch todo.sqlite
+symfony console doctrine:database:drop
 symfony console doctrine:schema:create
 ```
+
+Sinon, pour mettre à jour classiquement :
+```
+symfony console doctrine:schema:update
+```
+
+## Avancement du projet
+
+Etape 3.4
