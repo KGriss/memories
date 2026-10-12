@@ -24,6 +24,10 @@ class Mind
     #[ORM\OneToMany(targetEntity: Memory::class, mappedBy: 'mind', orphanRemoval: true)]
     private Collection $memories;
 
+    #[ORM\OneToOne(inversedBy: 'mind', cascade: ['persist'])]
+    #[ORM\JoinColumn(nullable: false)]
+    private ?Member $member = null;
+
     public function __construct()
     {
         $this->memories = new ArrayCollection();
@@ -72,6 +76,18 @@ class Mind
                 $memory->setMind(null);
             }
         }
+
+        return $this;
+    }
+
+    public function getMember(): ?Member
+    {
+        return $this->member;
+    }
+
+    public function setMember(Member $member): static
+    {
+        $this->member = $member;
 
         return $this;
     }
