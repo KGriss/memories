@@ -15,7 +15,7 @@
     <ul>
         {% for memory in mind.memories %}
             <li>
-                <strong>{{ memory.name }}</strong>
+                <strong><a href="/memory/{{ memory.id }}">{{ memory.name }}</a></strong>
 
                 {% if memory.location %}
                     - {{ memory.location }}
