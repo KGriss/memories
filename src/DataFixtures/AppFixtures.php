@@ -2,16 +2,77 @@
 
 namespace App\DataFixtures;
 
+use App\Entity\Member;
+use App\Entity\Memory;
+use App\Entity\Mind;
 use Doctrine\Bundle\FixturesBundle\Fixture;
 use Doctrine\Persistence\ObjectManager;
+use Symfony\Component\PasswordHasher\Hasher\UserPasswordHasherInterface;
 
 class AppFixtures extends Fixture
 {
+    public function __construct(
+        private UserPasswordHasherInterface $passwordHasher
+    ) {
+    }
+
     public function load(ObjectManager $manager): void
     {
-        // $product = new Product();
-        // $manager->persist($product);
+        $this->createMember(
+            $manager,
+            'lucas@localhost',
+            'Souvenirs de voyage de Lucas',
+            [
+                ['Week-end a Paris', 'Promenade dans Paris et visite des principaux monuments.', 'Paris, France'],
+                ['Vacances a Nice', 'Quelques jours sur la Cote d Azur.', 'Nice, France'],
+                ['Decouverte de Rome', 'Visite du Colisee et du centre historique.', 'Rome, Italie'],
+            ]
+        );
+
+        $this->createMember(
+            $manager,
+            'alice@localhost',
+            'Carnet de voyages d Alice',
+            [
+                ['Sejour a Londres', 'Decouverte de Westminster et des musees.', 'Londres, Royaume-Uni'],
+                ['Randonnee dans les Alpes', 'Randonnee avec plusieurs etapes en altitude.', 'Alpes, France'],
+                ['Voyage a Lisbonne', 'Decouverte des quartiers historiques.', 'Lisbonne, Portugal'],
+            ]
+        );
 
         $manager->flush();
+    }
+
+    private function createMember(
+        ObjectManager $manager,
+        string $email,
+        string $mindDescription,
+        array $memoriesData
+    ): void {
+        $member = new Member();
+        $member->setEmail($email);
+        $member->setRoles(['ROLE_USER']);
+        $member->setPassword(
+            $this->passwordHasher->hashPassword($member, '123456')
+        );
+
+        $mind = new Mind();
+        $mind->setDescription($mindDescription);
+
+        $member->setMind($mind);
+
+        $manager->persist($member);
+        $manager->persist($mind);
+
+        foreach ($memoriesData as $memoryData) {
+            $memory = new Memory();
+            $memory->setName($memoryData[0]);
+            $memory->setDescription($memoryData[1]);
+            $memory->setLocation($memoryData[2]);
+            $memory->setPicture(null);
+
+            $mind->addMemory($memory);
+            $manager->persist($memory);
+        }
     }
 }
