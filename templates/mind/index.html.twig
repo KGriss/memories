@@ -11,7 +11,7 @@
     <ul>
         {% for mind in minds %}
             <li>
-                {{ mind.description }}
+                <a href="/mind/{{ mind.id }}">{{ mind.description }}</a>
             </li>
         {% endfor %}
     </ul>

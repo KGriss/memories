@@ -2,6 +2,7 @@
 
 namespace App\Controller;
 
+use App\Entity\Mind;
 use App\Repository\MindRepository;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Response;
@@ -18,4 +19,12 @@ final class MindController extends AbstractController
             'minds' => $minds,
         ]);
     }
+    #[Route("/mind/{id}", name: "app_mind_show", requirements: ["id" => "\d+"], methods: ["GET"])]
+    public function show(Mind $mind): Response
+    {
+        return $this->render("mind/show.html.twig", [
+            "mind" => $mind,
+        ]);
+    }
+
 }

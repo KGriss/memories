@@ -1,0 +1,33 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Detail de l inventaire{% endblock %}
+
+{% block body %}
+<h1>{{ mind.description }}</h1>
+
+<p>Proprietaire : {{ mind.member.email }}</p>
+
+<h2>Souvenirs</h2>
+
+{% if mind.memories is empty %}
+    <p>Cet inventaire ne contient aucun souvenir.</p>
+{% else %}
+    <ul>
+        {% for memory in mind.memories %}
+            <li>
+                <strong>{{ memory.name }}</strong>
+
+                {% if memory.location %}
+                    - {{ memory.location }}
+                {% endif %}
+
+                <p>{{ memory.description }}</p>
+            </li>
+        {% endfor %}
+    </ul>
+{% endif %}
+
+<p>
+    <a href="/mind">Retour a la liste</a>
+</p>
+{% endblock %}
