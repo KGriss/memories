@@ -19,4 +19,7 @@
 /assets/vendor/
 ###< symfony/asset-mapper ###
 
-/resources
+/DOCS
+
+# Images téléversées (VichUploader), générées par le site et les fixtures
+/public/images/

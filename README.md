@@ -23,7 +23,7 @@ Les termes dans le code seront donc les suivants :\
 Voici la spécification des classes :\
 `Memory` : name (string), description (string), location (string optionnal), imageFile (image optionnal, VichUploader)\
 `Mind` : description (string), memories (memory list)\
-`Travel` : name (string), description (string), published (boolean), frontPicture (image optionnal), member (Member, créateur), memories (memory list)\
+`Travel` : name (string), description (string), published (boolean), member (Member, créateur), memories (memory list)\
 `Member` (utilisateur) : email (string), roles (list), password (string hashé), mind (Mind)
 
 Associations :
