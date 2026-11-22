@@ -1,8 +1,8 @@
 # Projet de CSC4101 - Site web de souvenirs de voyages
 
-Auteur : Lucas THURIES
+Lucas THURIES
 
-Thème : site web de souvenirs de voyages (nom de code « Memories »).
+Thème : site web de collections de souvenirs de voyages (Projet intitulé Memories).
 
 ## Contexte
 
@@ -36,27 +36,9 @@ Associations :
 - `Member` (1) — (0..n) `Travel` : OneToMany (créateur du voyage)
 - `Travel` (0..n) — (0..n) `Memory` : ManyToMany (un souvenir peut figurer dans plusieurs voyages)
 
-## Prise de note (partielle)
-
-Guide de réalisation du projet [https://www-inf.telecom-sudparis.eu/COURS/CSC4101/projet/](https://www-inf.telecom-sudparis.eu/COURS/CSC4101/projet/)
-
-Pour créer une entité (ou ajouter une propriété à une entité déjà existente) :
-```symfony console make:entity```
-
-Pour mettre à jour de force la base de donnée (n'utilise PAS les migration) (SQLite) :
-```
-symfony console doctrine:database:drop
-symfony console doctrine:schema:create
-```
-
-Sinon, pour mettre à jour classiquement :
-```
-symfony console doctrine:schema:update
-```
-
 ## Avancement du projet
 
-Toutes les étapes du guide sont réalisées, y compris les éléments optionnels de la check-list (voir TODO.md).
+Voir la check-list (TODO.md).
 
 ## Pour tester le programme
 
@@ -83,22 +65,22 @@ symfony server:start
 ### Comptes de test et rôles
 
 Comptes de test (chargés par les fixtures, `symfony console doctrine:fixtures:load`, voir `src/DataFixtures/UserFixtures.php`) :
-- lucas@localhost / 123456 (membre « Lucas », ROLE_USER) : inventaire de 3 souvenirs, 2 voyages (dont 1 non publié)
-- alice@localhost / 123456 (membre « Alice », ROLE_USER) : inventaire de 3 souvenirs, 2 voyages (dont 1 non publié)
-- admin@localhost / 123456 (« Administrateur », ROLE_ADMIN) : pas d'inventaire, accès à toutes les données
+- lucas@localhost / 123456 (membre "Lucas", ROLE_USER) : inventaire de 3 souvenirs, 2 voyages (dont 1 non publié)
+- alice@localhost / 123456 (membre "Alice", ROLE_USER) : inventaire de 3 souvenirs, 2 voyages (dont 1 non publié)
+- admin@localhost / 123456 ("Administrateur", ROLE_ADMIN) : pas d'inventaire, accès à toutes les données
 
-Le menu « Login » (en haut à droite) mène au formulaire de connexion, « Logout » permet de se déconnecter.
+Le menu "Login" (en haut à droite) mène au formulaire de connexion, "Logout" permet de se déconnecter.
 
 ### Parcours de test des éléments obligatoires
 
 Les inventaires et les souvenirs sont privés : il faut être connecté (par exemple avec lucas@localhost) pour les consulter.
 
-1. Consultation des souvenirs d'un inventaire (gabarits) : se connecter avec lucas@localhost -> on arrive sur sa fiche membre -> lien « mon inventaire » (`/mind/1`) : liste des souvenirs de l'inventaire -> clic sur un souvenir : fiche du souvenir (`/memory/1`), avec son image.
-2. Mise en forme Bootstrap : toutes les pages (thème Start Bootstrap « Shop Homepage », menus, formulaires Bootstrap 5).
-3. Entité voyage et association M-N avec les souvenirs : menu « Voyages » (`/travel`) -> fiche d'un voyage, avec la liste de ses souvenirs. Le souvenir « Week-end à Paris » apparaît dans les deux voyages de Lucas.
-4. CRUD des voyages : depuis la fiche membre de Lucas, lien « Create new » (création), puis liens « edit » et bouton « Delete » depuis la fiche d'un voyage.
-5. Création d'un souvenir dans le contexte de l'inventaire : dans l'inventaire de Lucas, lien « Ajouter un souvenir » (`/memory/new/1`) ; le champ « Mind » est pré-rempli et grisé.
-6. Mise en ligne des images : champ « Image file » des formulaires de création et de modification d'un souvenir ; l'image s'affiche sur la fiche du souvenir.
+1. Consultation des souvenirs d'un inventaire (gabarits) : se connecter avec lucas@localhost -> on arrive sur sa fiche membre -> lien "mon inventaire" (`/mind/1`) : liste des souvenirs de l'inventaire -> clic sur un souvenir : fiche du souvenir (`/memory/1`), avec son image.
+2. Mise en forme Bootstrap : toutes les pages (thème Start Bootstrap "Shop Homepage", menus, formulaires Bootstrap 5).
+3. Entité voyage et association M-N avec les souvenirs : menu "Voyages" (`/travel`) -> fiche d'un voyage, avec la liste de ses souvenirs. Le souvenir "Week-end à Paris" apparaît dans les deux voyages de Lucas.
+4. CRUD des voyages : depuis la fiche membre de Lucas, lien "Create new" (création), puis liens "edit" et bouton "Delete" depuis la fiche d'un voyage.
+5. Création d'un souvenir dans le contexte de l'inventaire : dans l'inventaire de Lucas, lien "Ajouter un souvenir" (`/memory/new/1`) ; le champ "Mind" est pré-rempli et grisé.
+6. Mise en ligne des images : champ "Image file" des formulaires de création et de modification d'un souvenir ; l'image s'affiche sur la fiche du souvenir.
 7. Authentification : menus Login / Logout, comptes et rôles ci-dessus.
 
 ### Éléments optionnels réalisés
@@ -108,7 +90,7 @@ Les inventaires et les souvenirs sont privés : il faut être connecté (par exe
 - Listes selon l'utilisateur connecté : un membre ne voit que ses propres données ; la liste des voyages affiche les voyages publiés et les siens (publiés ou non).
 - Ajout des souvenirs dans un voyage : formulaire de création / modification d'un voyage (cases à cocher), limité aux souvenirs du créateur du voyage.
 - Messages flash après chaque création, modification ou suppression.
-- Favoris (marque-pages en session) : sur la page d'un souvenir consulté depuis un voyage (par exemple `/travel/1/memory/1`), lien « Ajouter aux favoris ».
+- Favoris (marque-pages en session) : sur la page d'un souvenir consulté depuis un voyage (par exemple `/travel/1/memory/1`), lien "Ajouter aux favoris".
 
 ### Limites connues et choix
 
