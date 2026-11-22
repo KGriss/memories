@@ -9,3 +9,11 @@
 
 controllers:
     resource: routing.controllers
+
+# Redirect the site root to the list of minds (temporary, until a real homepage exists)
+home:
+    path: /
+    controller: Symfony\Bundle\FrameworkBundle\Controller\RedirectController
+    defaults:
+        route: app_mind
+        permanent: false

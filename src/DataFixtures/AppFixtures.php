@@ -23,20 +23,20 @@ class AppFixtures extends Fixture
             'lucas@localhost',
             'Souvenirs de voyage de Lucas',
             [
-                ['Week-end a Paris', 'Promenade dans Paris et visite des principaux monuments.', 'Paris, France'],
-                ['Vacances a Nice', 'Quelques jours sur la Cote d Azur.', 'Nice, France'],
-                ['Decouverte de Rome', 'Visite du Colisee et du centre historique.', 'Rome, Italie'],
+                ['Week-end à Paris', 'Promenade dans Paris et visite des principaux monuments.', 'Paris, France'],
+                ['Vacances à Nice', 'Quelques jours sur la Côte d\'Azur.', 'Nice, France'],
+                ['Découverte de Rome', 'Visite du Colisée et du centre historique.', 'Rome, Italie'],
             ]
         );
 
         $this->createMember(
             $manager,
             'alice@localhost',
-            'Carnet de voyages d Alice',
+            'Carnet de voyages d\'Alice',
             [
-                ['Sejour a Londres', 'Decouverte de Westminster et des musees.', 'Londres, Royaume-Uni'],
-                ['Randonnee dans les Alpes', 'Randonnee avec plusieurs etapes en altitude.', 'Alpes, France'],
-                ['Voyage a Lisbonne', 'Decouverte des quartiers historiques.', 'Lisbonne, Portugal'],
+                ['Séjour à Londres', 'Découverte de Westminster et des musées.', 'Londres, Royaume-Uni'],
+                ['Randonnée dans les Alpes', 'Randonnée avec plusieurs étapes en altitude.', 'Alpes, France'],
+                ['Voyage à Lisbonne', 'Découverte des quartiers historiques.', 'Lisbonne, Portugal'],
             ]
         );
 

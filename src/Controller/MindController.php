@@ -19,11 +19,11 @@ final class MindController extends AbstractController
             'minds' => $minds,
         ]);
     }
-    #[Route("/mind/{id}", name: "app_mind_show", requirements: ["id" => "\d+"], methods: ["GET"])]
+    #[Route('/mind/{id}', name: 'app_mind_show', requirements: ['id' => '\d+'], methods: ['GET'])]
     public function show(Mind $mind): Response
     {
-        return $this->render("mind/show.html.twig", [
-            "mind" => $mind,
+        return $this->render('mind/show.html.twig', [
+            'mind' => $mind,
         ]);
     }
 

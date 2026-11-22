@@ -1,4 +1,6 @@
-| N° étape | Tâche à faire | Obligatoire / Optionnel | Séance de début prévisionnel | État |
+Check-list d'avancement
+
+| N° tâche | Tâche à faire | Obligatoire / Optionnel | Séance de début prévisionnel | État |
 |---:|---|---|---|:---:|
 | 1 | **prise de connaissance du [cahier des charges](https://www-inf.telecom-sudparis.eu/COURS/CSC4101/projet/cahier-charges-agvoy.html)** | OBLIGATOIRE | TP 3 | [x] |
 | 2 | initialisation du projet Symfony | OBLIGATOIRE | TP 3 | [x] |

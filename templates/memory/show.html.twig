@@ -1,6 +1,6 @@
 {% extends 'base.html.twig' %}
 
-{% block title %}Detail du souvenir{% endblock %}
+{% block title %}Détail du souvenir{% endblock %}
 
 {% block body %}
 <h1>{{ memory.name }}</h1>
@@ -16,6 +16,6 @@
 {% endif %}
 
 <p>
-    <a href="/mind/{{ memory.mind.id }}">Retour a l inventaire</a>
+    <a href="{{ path('app_mind_show', {id: memory.mind.id}) }}">Retour à l'inventaire</a>
 </p>
 {% endblock %}

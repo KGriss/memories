@@ -3,6 +3,7 @@
 namespace App\Entity;
 
 use App\Repository\MemoryRepository;
+use Doctrine\DBAL\Types\Types;
 use Doctrine\ORM\Mapping as ORM;
 
 #[ORM\Entity(repositoryClass: MemoryRepository::class)]
@@ -16,7 +17,7 @@ class Memory
     #[ORM\Column(length: 255)]
     private ?string $name = null;
 
-    #[ORM\Column(length: 255)]
+    #[ORM\Column(type: Types::TEXT)]
     private ?string $description = null;
 
     #[ORM\Column(length: 255, nullable: true)]
@@ -92,5 +93,10 @@ class Memory
         $this->mind = $mind;
 
         return $this;
+    }
+
+    public function __toString(): string
+    {
+        return (string) $this->name;
     }
 }

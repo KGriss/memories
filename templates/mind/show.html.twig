@@ -1,11 +1,11 @@
 {% extends 'base.html.twig' %}
 
-{% block title %}Detail de l inventaire{% endblock %}
+{% block title %}Détail de l'inventaire{% endblock %}
 
 {% block body %}
 <h1>{{ mind.description }}</h1>
 
-<p>Proprietaire : {{ mind.member.email }}</p>
+<p>Propriétaire : {{ mind.member.email }}</p>
 
 <h2>Souvenirs</h2>
 
@@ -15,7 +15,7 @@
     <ul>
         {% for memory in mind.memories %}
             <li>
-                <strong><a href="/memory/{{ memory.id }}">{{ memory.name }}</a></strong>
+                <strong><a href="{{ path('app_memory_show', {id: memory.id}) }}">{{ memory.name }}</a></strong>
 
                 {% if memory.location %}
                     - {{ memory.location }}
@@ -28,6 +28,6 @@
 {% endif %}
 
 <p>
-    <a href="/mind">Retour a la liste</a>
+    <a href="{{ path('app_mind') }}">Retour à la liste</a>
 </p>
 {% endblock %}
