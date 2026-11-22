@@ -59,7 +59,7 @@ Toutes les étapes du guide sont réalisées (voir TODO.md).
 ```
 symfony server:start
 ```
--> Se rendre ensuite sur l'URL affichée par la commande (par défaut http://127.0.0.1:8000/), qui redirige vers la liste des membres `/member` (connexion demandée)
+-> Se rendre ensuite sur l'URL affichée par la commande (par défaut http://127.0.0.1:8000/), qui redirige vers les voyages publics `/travel` (ou vers la liste des membres `/member` si on est connecté)
 
 Comptes de test (chargés par les fixtures, `symfony console doctrine:fixtures:load`) :
 - lucas@localhost / 123456
