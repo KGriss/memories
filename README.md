@@ -52,14 +52,14 @@ symfony console doctrine:schema:update
 
 ## Avancement du projet
 
-Prochaine étape : 16
+Prochaine étape : 18
 
 ## Pour tester le programme
 
 ```
 symfony server:start
 ```
--> Se rendre ensuite sur l'URL affichée par la commande (par défaut http://127.0.0.1:8000/), qui redirige vers la liste des inventaires `/mind`
+-> Se rendre ensuite sur l'URL affichée par la commande (par défaut http://127.0.0.1:8000/), qui redirige vers la liste des membres `/member` (connexion demandée)
 
 Comptes de test (chargés par les fixtures, `symfony console doctrine:fixtures:load`) :
 - lucas@localhost / 123456

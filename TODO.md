@@ -38,5 +38,5 @@ Check-list d'avancement
 | 21 | contextualisation de l'ajout d'un [objet] à une [galerie] | OPTIONNEL |  | [x] |
 | 22 | utilisation des messages flash pour les CRUDs | OPTIONNEL |  | [ ] |
 | 23 | ajout d'une gestion de marque-pages/panier dans le front-office | OPTIONNEL | TP 8 | [ ] |
-| 24 | protection de l'accès aux données à leurs seuls propriétaires | OPTIONNEL | TP 8 | [ ] |
-| 25 | contextualisation du chargement des données en fonction de l'utilisateur connecté | OPTIONNEL |  | [ ] |
+| 24 | protection de l'accès aux données à leurs seuls propriétaires | OPTIONNEL | TP 8 | [x] |
+| 25 | contextualisation du chargement des données en fonction de l'utilisateur connecté | OPTIONNEL |  | [x] |

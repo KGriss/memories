@@ -13,6 +13,7 @@ use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Attribute\Route;
+use Symfony\Component\Security\Http\Attribute\IsGranted;
 
 #[Route('/travel')]
 final class TravelController extends AbstractController
@@ -20,14 +21,34 @@ final class TravelController extends AbstractController
     #[Route(name: 'app_travel_index', methods: ['GET'])]
     public function index(TravelRepository $travelRepository): Response
     {
+        if($this->isGranted('ROLE_ADMIN')) {
+            $travels = $travelRepository->findAll();
+        }
+        else {
+            $travels = $travelRepository->findBy(['published' => true]);
+            //dump($travels);
+            if ($this->isGranted('IS_AUTHENTICATED_FULLY')) {
+                // fetch the member's travels, either published or not
+                $memberTravels = $this->getUser()->getTravels();
+                // merge both arrays and remove duplicates
+                $travels = array_merge($travels, $memberTravels->toArray());
+                $travels = array_unique($travels);
+            }
+        }
         return $this->render('travel/index.html.twig', [
-            'travel' => $travelRepository->findBy(['published' => true]),
+            'travel' => $travels,
         ]);
     }
 
     #[Route('/new/{id}', name: 'app_travel_new', methods: ['GET', 'POST'])]
+    #[IsGranted('ROLE_USER')]
     public function new(Request $request, EntityManagerInterface $entityManager, Member $member): Response
     {
+        $hasAccess = $this->isGranted('ROLE_ADMIN') ||
+            ($this->getUser() == $member);
+        if(! $hasAccess) {
+            throw $this->createAccessDeniedException("You cannot create a travel for another member!");
+        }
         $travel = new Travel();
         $travel->setCreator($member);
         $form = $this->createForm(TravelType::class, $travel);
@@ -52,6 +73,19 @@ final class TravelController extends AbstractController
     #[Route('/{id}', name: 'app_travel_show', methods: ['GET'])]
     public function show(Travel $travel): Response
     {
+        $hasAccess = false;
+        if($this->isGranted('ROLE_ADMIN') || $travel->isPublished()) {
+                $hasAccess = true;
+        }
+        else {
+                $member = $this->getUser();
+                if ( $member &&  ($member == $travel->getCreator()) ) {
+                    $hasAccess = true;
+                }
+        }
+        if(! $hasAccess) {
+                throw $this->createAccessDeniedException("You cannot access the requested resource!");
+        }
         return $this->render('travel/show.html.twig', [
             'travel' => $travel,
         ]);
@@ -79,9 +113,19 @@ final class TravelController extends AbstractController
         if(! $travel->getMemories()->contains($memory)) {
             throw $this->createNotFoundException("Couldn't find such a memory in this travel!");
         }
-        // if(! $travel->isPublished()) {
-        //   throw $this->createAccessDeniedException("You cannot access the requested ressource!");
-        //}
+        $hasAccess = false;
+        if($this->isGranted('ROLE_ADMIN') || $travel->isPublished()) {
+          $hasAccess = true;
+        }
+        else {
+          $member = $this->getUser();
+          if ( $member &&  ($member == $travel->getCreator()) ) {
+              $hasAccess = true;
+          }
+        }
+        if(! $hasAccess) {
+          throw $this->createAccessDeniedException("You cannot access the requested ressource!");
+        }
         return $this->render('travel/memory_show.html.twig', [
             'memory' => $memory,
             'travel' => $travel
@@ -89,8 +133,14 @@ final class TravelController extends AbstractController
     }
 
     #[Route('/{id}/edit', name: 'app_travel_edit', methods: ['GET', 'POST'])]
+    #[IsGranted('ROLE_USER')]
     public function edit(Request $request, Travel $travel, EntityManagerInterface $entityManager): Response
     {
+        $hasAccess = $this->isGranted('ROLE_ADMIN') ||
+            ($this->getUser() == $travel->getCreator());
+        if(! $hasAccess) {
+            throw $this->createAccessDeniedException("You cannot modify another member's travel!");
+        }
         $form = $this->createForm(TravelType::class, $travel);
         $form->handleRequest($request);
 
@@ -107,9 +157,15 @@ final class TravelController extends AbstractController
     }
 
     #[Route('/{id}', name: 'app_travel_delete', methods: ['POST'])]
+    #[IsGranted('ROLE_USER')]
     public function delete(Request $request, Travel $travel, EntityManagerInterface $entityManager): Response
     {
         $member = $travel->getCreator();
+        $hasAccess = $this->isGranted('ROLE_ADMIN') ||
+            ($this->getUser() == $travel->getCreator());
+        if(! $hasAccess) {
+            throw $this->createAccessDeniedException("You cannot modify another member's travel!");
+        }
         if ($this->isCsrfTokenValid('delete'.$travel->getId(), $request->getPayload()->getString('_token'))) {
             $entityManager->remove($travel);
             $entityManager->flush();

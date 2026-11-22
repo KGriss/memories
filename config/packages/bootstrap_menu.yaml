@@ -5,9 +5,11 @@ bootstrap_menu:
         members:
           label: 'Membres'
           route: 'app_member_index'
+          roles: [ 'ROLE_USER' ]
         minds:
           label: 'Inventaires'
           route: 'app_mind'
+          roles: [ 'ROLE_USER' ]
         travels:
           label: 'Voyages'
           route: 'app_travel_index'

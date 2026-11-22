@@ -24,7 +24,9 @@
                 <td>{{ travel.published ? 'Yes' : 'No' }}</td>
                 <td>
                     <a href="{{ path('app_travel_show', {'id': travel.id}) }}">show</a>
-                    <a href="{{ path('app_travel_edit', {'id': travel.id}) }}">edit</a>
+                    {% if is_granted('ROLE_ADMIN') or (app.user and app.user == travel.creator) %}
+                        <a href="{{ path('app_travel_edit', {'id': travel.id}) }}">edit</a>
+                    {% endif %}
                 </td>
             </tr>
         {% else %}
