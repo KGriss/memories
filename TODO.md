@@ -32,7 +32,7 @@ Check-list d'avancement
 | 15 | consultation de la liste des seuls inventaires d'un membre dans le front-office | OBLIGATOIRE |  | [x] |
 | 16 | contextualisation de la création d'un [objet] en fonction de l'[inventaire] | OBLIGATOIRE |  | [x] |
 | 17 | ajout de la gestion de la mise en ligne d'images pour des photos dans les [objet] | OBLIGATOIRE | TP 8 | [x] |
-| 18 | ajout de l'authentification | OBLIGATOIRE | TP 8 | [ ] |
+| 18 | ajout de l'authentification | OBLIGATOIRE | TP 8 | [x] |
 | 19 | affichage des seules galeries publiques | OBLIGATOIRE |  | [x] |
 | 20 | contextualisation de la création d'une [galerie] en fonction du membre | OPTIONNEL |  | [x] |
 | 21 | contextualisation de l'ajout d'un [objet] à une [galerie] | OPTIONNEL |  | [x] |

@@ -18,7 +18,9 @@
         </tbody>
     </table>
 
-    <a href="{{ path('app_mind_show', {'id' : member.mind.id}) }}"> mon inventaire </a>
+    {% if member.mind %}
+        <a href="{{ path('app_mind_show', {'id' : member.mind.id}) }}"> mon inventaire </a>
+    {% endif %}
 
     <h2>Travels</h2>
 

@@ -52,7 +52,7 @@ symfony console doctrine:schema:update
 
 ## Avancement du projet
 
-Prochaine étape : 15
+Prochaine étape : 16
 
 ## Pour tester le programme
 
@@ -64,3 +64,4 @@ symfony server:start
 Comptes de test (chargés par les fixtures, `symfony console doctrine:fixtures:load`) :
 - lucas@localhost / 123456
 - alice@localhost / 123456
+- admin@localhost / 123456 (administrateur, ROLE_ADMIN)
