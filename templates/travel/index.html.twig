@@ -12,6 +12,7 @@
                 <th>Name</th>
                 <th>Description</th>
                 <th>Published</th>
+                <th>Creator</th>
                 <th>actions</th>
             </tr>
         </thead>
@@ -22,6 +23,7 @@
                 <td>{{ travel.name }}</td>
                 <td>{{ travel.description }}</td>
                 <td>{{ travel.published ? 'Yes' : 'No' }}</td>
+                <td>{{ travel.creator.name }}</td>
                 <td>
                     <a href="{{ path('app_travel_show', {'id': travel.id}) }}">show</a>
                     {% if is_granted('ROLE_ADMIN') or (app.user and app.user == travel.creator) %}
@@ -31,7 +33,7 @@
             </tr>
         {% else %}
             <tr>
-                <td colspan="5">no records found</td>
+                <td colspan="6">no records found</td>
             </tr>
         {% endfor %}
         </tbody>

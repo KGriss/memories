@@ -18,13 +18,13 @@ Les termes dans le code seront donc les suivants :\
 *souvenir* : `memory`\
 *mémoire* : `mind`\
 *voyage* : `travel`\
-*utilisateur* : `user`
+*utilisateur* : `member`
 
 Voici la spécification des classes :\
 `Memory` : name (string), description (string), location (string optionnal), imageFile (image optionnal, VichUploader)\
 `Mind` : description (string), memories (memory list)\
-`Travel` : name (string), description (string), published (boolean), member (Member, créateur), memories (memory list)\
-`Member` (utilisateur) : email (string), roles (list), password (string hashé), mind (Mind)
+`Travel` : name (string), description (string), published (boolean), creator (Member, créateur), memories (memory list)\
+`Member` (utilisateur) : email (string), name (string, nom de profil public), roles (list), password (string hashé), mind (Mind)
 
 Associations :
 - `Member` (1) — (1) `Mind` : OneToOne

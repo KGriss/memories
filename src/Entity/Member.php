@@ -42,6 +42,9 @@ class Member implements UserInterface, PasswordAuthenticatedUserInterface
     #[ORM\OneToMany(targetEntity: Travel::class, mappedBy: 'creator')]
     private Collection $travels;
 
+    #[ORM\Column(length: 255)]
+    private ?string $name = null;
+
     public function __construct()
     {
         $this->travels = new ArrayCollection();
@@ -176,6 +179,18 @@ class Member implements UserInterface, PasswordAuthenticatedUserInterface
                 $travel->setCreator(null);
             }
         }
+
+        return $this;
+    }
+
+    public function getName(): ?string
+    {
+        return $this->name;
+    }
+
+    public function setName(string $name): static
+    {
+        $this->name = $name;
 
         return $this;
     }
