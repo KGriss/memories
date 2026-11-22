@@ -52,7 +52,7 @@ symfony console doctrine:schema:update
 
 ## Avancement du projet
 
-Prochaine étape : 9
+Prochaine étape : 10
 
 ## Pour tester le programme
 

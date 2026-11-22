@@ -5,3 +5,6 @@ bootstrap_menu:
         minds:
           label: 'Inventaires'
           route: 'app_mind'
+        travels:
+          label: 'Voyages'
+          route: 'app_travel_index'

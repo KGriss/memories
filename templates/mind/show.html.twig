@@ -2,7 +2,7 @@
 
 {% block title %}Détail de l'inventaire{% endblock %}
 
-{% block body %}
+{% block main %}
 <h1>{{ mind.description }}</h1>
 
 <p>Propriétaire : {{ mind.member.email }}</p>
@@ -30,4 +30,4 @@
 <p>
     <a href="{{ path('app_mind') }}">Retour à la liste</a>
 </p>
-{% endblock %}
+{% endblock %} {# main #}

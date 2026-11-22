@@ -2,7 +2,7 @@
 
 {% block title %}Détail du souvenir{% endblock %}
 
-{% block body %}
+{% block main %}
 <h1>{{ memory.name }}</h1>
 
 <p><strong>Description :</strong> {{ memory.description }}</p>
@@ -18,4 +18,4 @@
 <p>
     <a href="{{ path('app_mind_show', {id: memory.mind.id}) }}">Retour à l'inventaire</a>
 </p>
-{% endblock %}
+{% endblock %} {# main #}
