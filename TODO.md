@@ -20,11 +20,11 @@ Check-list d'avancement
 |  | - consultation d'un [objet] |  |  | [x] |
 |  | - consultation de la liste des [objets] d'un [inventaire] |  |  | [x] |
 |  | - navigation d'un [inventaire] vers la consultation de ses [objets] |  |  | [x] |
-| 8 | intégration d'une mise en forme CSS avec Bootstrap dans les gabarits Twig | OBLIGATOIRE | TP 6 | [ ] |
+| 8 | intégration d'une mise en forme CSS avec Bootstrap dans les gabarits Twig | OBLIGATOIRE | TP 6 | [x] |
 | 9 | ajout de l'entité membre et du lien membre - [inventaire] | OBLIGATOIRE | TP 3/4 | [x] |
 |  | - ajout de membre au modèle des données |  |  | [x] |
 |  | - ajout de l'association 1-1 entre membre et son inventaire |  |  | [x] |
-| 10 | intégration de menus de navigation | OBLIGATOIRE |  | [ ] |
+| 10 | intégration de menus de navigation | OBLIGATOIRE |  | [x] |
 | 11 | ajout de l'entité [galerie] au modèle des données et de l'association M-N avec [objet] | OBLIGATOIRE |  | [ ] |
 | 12 | ajout d'un contrôleur CRUD pour [galerie] | OBLIGATOIRE | TP 7 | [ ] |
 | 13 | ajout de fonctions CRUD pour [objet] | OBLIGATOIRE |  | [ ] |

@@ -8,6 +8,12 @@ framework:
     #esi: true
     #fragments: true
 
+    # Start Bootstrap "Shop Homepage" theme, used with asset('...', 'bootstrap')
+    assets:
+        packages:
+            bootstrap:
+                base_path: '/startbootstrap-shop-homepage-gh-pages'
+
 when@test:
     framework:
         test: true

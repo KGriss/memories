@@ -1,0 +1,7 @@
+bootstrap_menu:
+  menus:
+    main:
+      items:
+        minds:
+          label: 'Inventaires'
+          route: 'app_mind'
