@@ -14,9 +14,13 @@ final class MindController extends AbstractController
     #[Route('/', name: 'home', methods: ['GET'])]
     public function home(): Response
     {
-        if ($this->isGranted('IS_AUTHENTICATED_FULLY')) {
-            // a connected member starts from the members list, as after login
+        if ($this->isGranted('ROLE_ADMIN')) {
+            // the administrator starts from the members list
             return $this->redirectToRoute('app_member_index');
+        }
+        if ($this->isGranted('IS_AUTHENTICATED_FULLY')) {
+            // a connected member directly sees his own data
+            return $this->redirectToRoute('app_member_show', ['id' => $this->getUser()->getId()]);
         }
         // visitors start from the public travels
         return $this->redirectToRoute('app_travel_index');
