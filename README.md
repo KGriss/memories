@@ -26,7 +26,7 @@ Voici la spécification des classes :\
 `Travel` : name (string), frontPicture (image), memories (memory list)\
 `User` : _voir la suite du cours CSC4101_
 
-## Prise de note
+## Prise de note (partielle)
 
 Guide de réalisation du projet [https://www-inf.telecom-sudparis.eu/COURS/CSC4101/projet/](https://www-inf.telecom-sudparis.eu/COURS/CSC4101/projet/)
 
@@ -46,4 +46,11 @@ symfony console doctrine:schema:update
 
 ## Avancement du projet
 
-Etape 3.4
+Prochaine etape 7
+
+## Pour tester le programme
+
+```
+symfony server:start
+```
+-> Se rendre ensuite sur http://127.0.0.1:8001/mind
