@@ -2,10 +2,12 @@
 
 namespace App\Controller;
 
+use App\Entity\Memory;
 use App\Entity\Travel;
 use App\Form\TravelType;
 use App\Repository\TravelRepository;
 use Doctrine\ORM\EntityManagerInterface;
+use Symfony\Bridge\Doctrine\Attribute\MapEntity;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
@@ -47,6 +49,37 @@ final class TravelController extends AbstractController
     {
         return $this->render('travel/show.html.twig', [
             'travel' => $travel,
+        ]);
+    }
+
+    /**
+     * Show a memory in the context of a travel
+     *
+     * @param Travel $travel the travel which displays the memory (galerie)
+     * @param Memory $memory the memory to display (objet)
+     */
+    #[Route('/{travel_id}/memory/{memory_id}',
+        methods: ['GET'],
+        name: 'app_travel_memory_show',
+        requirements: ['travel_id' => '\d+',
+                       'memory_id' => '\d+'
+                      ])]
+    public function memoryShow(
+        #[MapEntity(id: 'travel_id')]
+        Travel $travel,
+        #[MapEntity(id: 'memory_id')]
+        Memory $memory
+    ): Response
+    {
+        if(! $travel->getMemories()->contains($memory)) {
+            throw $this->createNotFoundException("Couldn't find such a memory in this travel!");
+        }
+        // if(! $travel->isPublished()) {
+        //   throw $this->createAccessDeniedException("You cannot access the requested ressource!");
+        //}
+        return $this->render('travel/memory_show.html.twig', [
+            'memory' => $memory,
+            'travel' => $travel
         ]);
     }
 

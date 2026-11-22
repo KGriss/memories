@@ -1,0 +1,21 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Détail du souvenir{% endblock %}
+
+{% block main %}
+<h1>{{ memory.name }}</h1>
+
+<p><strong>Description :</strong> {{ memory.description }}</p>
+
+{% if memory.location %}
+    <p><strong>Lieu :</strong> {{ memory.location }}</p>
+{% endif %}
+
+{% if memory.picture %}
+    <p><strong>Image :</strong> {{ memory.picture }}</p>
+{% endif %}
+
+<p>
+    <a href="{{ path('app_travel_show', { 'id': travel.id}) }}">back to travel</a>
+</p>
+{% endblock %} {# main #}

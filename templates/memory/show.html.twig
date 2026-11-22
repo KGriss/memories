@@ -1,21 +1,38 @@
 {% extends 'base.html.twig' %}
 
-{% block title %}Détail du souvenir{% endblock %}
+{% block title %}Memory{% endblock %}
 
 {% block main %}
-<h1>{{ memory.name }}</h1>
+    <h1>Memory</h1>
 
-<p><strong>Description :</strong> {{ memory.description }}</p>
+    <table class="table">
+        <tbody>
+            <tr>
+                <th>Id</th>
+                <td>{{ memory.id }}</td>
+            </tr>
+            <tr>
+                <th>Name</th>
+                <td>{{ memory.name }}</td>
+            </tr>
+            <tr>
+                <th>Description</th>
+                <td>{{ memory.description }}</td>
+            </tr>
+            <tr>
+                <th>Location</th>
+                <td>{{ memory.location }}</td>
+            </tr>
+            <tr>
+                <th>Picture</th>
+                <td>{{ memory.picture }}</td>
+            </tr>
+        </tbody>
+    </table>
 
-{% if memory.location %}
-    <p><strong>Lieu :</strong> {{ memory.location }}</p>
-{% endif %}
+    <a href="{{ path('app_memory_index') }}">back to list</a>
 
-{% if memory.picture %}
-    <p><strong>Image :</strong> {{ memory.picture }}</p>
-{% endif %}
+    <a href="{{ path('app_memory_edit', {'id': memory.id}) }}">edit</a>
 
-<p>
-    <a href="{{ path('app_mind_show', {id: memory.mind.id}) }}">Retour à l'inventaire</a>
-</p>
+    {{ include('memory/_delete_form.html.twig') }}
 {% endblock %} {# main #}

@@ -29,7 +29,12 @@
                     <ul>
                       {% for memory in travel.memories %}
                       <li>
-                        {{ memory }}
+                        <a href="{{ path( 'app_travel_memory_show',
+                                          {
+                                            'travel_id': travel.id,
+                                            'memory_id' : memory.id
+                                          }
+                                        ) }}">{{ memory }}</a>
                       </li>
                       {% endfor %}
                     </ul>
