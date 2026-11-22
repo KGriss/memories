@@ -29,8 +29,8 @@ Check-list d'avancement
 | 12 | ajout d'un contrôleur CRUD pour [galerie] | OBLIGATOIRE | TP 7 | [x] |
 | 13 | ajout de fonctions CRUD pour [objet] | OBLIGATOIRE |  | [x] |
 | 14 | ajout de la consultation des [objets] depuis les [galeries] publiques | OBLIGATOIRE |  | [x] |
-| 15 | consultation de la liste des seuls inventaires d'un membre dans le front-office | OBLIGATOIRE |  | [ ] |
-| 16 | contextualisation de la création d'un [objet] en fonction de l'[inventaire] | OBLIGATOIRE |  | [ ] |
+| 15 | consultation de la liste des seuls inventaires d'un membre dans le front-office | OBLIGATOIRE |  | [x] |
+| 16 | contextualisation de la création d'un [objet] en fonction de l'[inventaire] | OBLIGATOIRE |  | [x] |
 | 17 | ajout de la gestion de la mise en ligne d'images pour des photos dans les [objet] | OBLIGATOIRE | TP 8 | [ ] |
 | 18 | ajout de l'authentification | OBLIGATOIRE | TP 8 | [ ] |
 | 19 | affichage des seules galeries publiques | OBLIGATOIRE |  | [ ] |

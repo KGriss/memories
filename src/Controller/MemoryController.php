@@ -3,6 +3,7 @@
 namespace App\Controller;
 
 use App\Entity\Memory;
+use App\Entity\Mind;
 use App\Form\MemoryType;
 use App\Repository\MemoryRepository;
 use Doctrine\ORM\EntityManagerInterface;
@@ -22,10 +23,11 @@ final class MemoryController extends AbstractController
         ]);
     }
 
-    #[Route('/new', name: 'app_memory_new', methods: ['GET', 'POST'])]
-    public function new(Request $request, EntityManagerInterface $entityManager): Response
+    #[Route('/new/{id}', name: 'app_memory_new', methods: ['GET', 'POST'])]
+    public function new(Request $request, EntityManagerInterface $entityManager, Mind $mind): Response
     {
         $memory = new Memory();
+        $memory->setMind($mind);
         $form = $this->createForm(MemoryType::class, $memory);
         $form->handleRequest($request);
 
@@ -33,10 +35,13 @@ final class MemoryController extends AbstractController
             $entityManager->persist($memory);
             $entityManager->flush();
 
-            return $this->redirectToRoute('app_memory_index', [], Response::HTTP_SEE_OTHER);
+            return $this->redirectToRoute('app_mind_show',
+                                          ['id' => $mind->getId()],
+                                          Response::HTTP_SEE_OTHER);
         }
 
         return $this->render('memory/new.html.twig', [
+            'mind' => $mind,
             'memory' => $memory,
             'form' => $form,
         ]);
@@ -59,7 +64,7 @@ final class MemoryController extends AbstractController
         if ($form->isSubmitted() && $form->isValid()) {
             $entityManager->flush();
 
-            return $this->redirectToRoute('app_memory_index', [], Response::HTTP_SEE_OTHER);
+            return $this->redirectToRoute('app_mind_show', ['id' => $memory->getMind()->getId()], Response::HTTP_SEE_OTHER);
         }
 
         return $this->render('memory/edit.html.twig', [
@@ -71,11 +76,12 @@ final class MemoryController extends AbstractController
     #[Route('/{id}', name: 'app_memory_delete', methods: ['POST'])]
     public function delete(Request $request, Memory $memory, EntityManagerInterface $entityManager): Response
     {
+        $mind = $memory->getMind();
         if ($this->isCsrfTokenValid('delete'.$memory->getId(), $request->getPayload()->getString('_token'))) {
             $entityManager->remove($memory);
             $entityManager->flush();
         }
 
-        return $this->redirectToRoute('app_memory_index', [], Response::HTTP_SEE_OTHER);
+        return $this->redirectToRoute('app_mind_show', ['id' => $mind->getId()], Response::HTTP_SEE_OTHER);
     }
 }

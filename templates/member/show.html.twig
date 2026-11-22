@@ -1,0 +1,24 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Member{% endblock %}
+
+{% block main %}
+    <h1>Member</h1>
+
+    <table class="table">
+        <tbody>
+            <tr>
+                <th>Id</th>
+                <td>{{ member.id }}</td>
+            </tr>
+            <tr>
+                <th>Email</th>
+                <td>{{ member.email }}</td>
+            </tr>
+        </tbody>
+    </table>
+
+    <a href="{{ path('app_mind_show', {'id' : member.mind.id}) }}"> mon inventaire </a>
+
+    <a href="{{ path('app_member_index') }}">back to list</a>
+{% endblock %} {# main #}

@@ -13,7 +13,7 @@ final class MindController extends AbstractController
     #[Route('/', name: 'home', methods: ['GET'])]
     public function home(): Response
     {
-        return $this->redirectToRoute('app_mind');
+        return $this->redirectToRoute('app_member_index');
     }
 
     #[Route('/mind', name: 'app_mind', methods: ['GET'])]

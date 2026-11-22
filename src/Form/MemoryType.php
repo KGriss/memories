@@ -19,15 +19,16 @@ class MemoryType extends AbstractType
             ->add('description')
             ->add('location')
             ->add('picture')
-            ->add('mind', EntityType::class, [
-                'class' => Mind::class,
-                'choice_label' => 'id',
-            ])
             ->add('travels', EntityType::class, [
                 'class' => Travel::class,
                 'choice_label' => 'id',
                 'multiple' => true,
             ])
+        ;
+        $builder->add('mind', EntityType::class, [
+            'class' => Mind::class,
+            'disabled' => true,
+        ])
         ;
     }
 

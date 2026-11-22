@@ -3,9 +3,9 @@
 {% block title %}New Memory{% endblock %}
 
 {% block main %}
-    <h1>Create new Memory</h1>
+    <h1>Add a Memory to "{{ mind }}"</h1>
 
     {{ include('memory/_form.html.twig') }}
 
-    <a href="{{ path('app_memory_index') }}">back to list</a>
+    <a href="{{ path('app_mind_show', {'id' : mind.id}) }}">back to mind</a>
 {% endblock %} {# main #}

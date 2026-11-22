@@ -27,7 +27,9 @@
     </ul>
 {% endif %}
 
+<a href="{{ path('app_memory_new', {'id': mind.id}) }}">Ajouter un souvenir</a>
+
 <p>
-    <a href="{{ path('app_mind') }}">Retour à la liste</a>
+    <a href="{{ path('app_member_show', {'id': mind.member.id}) }}">Retour au membre</a>
 </p>
 {% endblock %} {# main #}
