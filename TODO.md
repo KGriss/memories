@@ -33,8 +33,8 @@ Check-list d'avancement
 | 16 | contextualisation de la création d'un [objet] en fonction de l'[inventaire] | OBLIGATOIRE |  | [x] |
 | 17 | ajout de la gestion de la mise en ligne d'images pour des photos dans les [objet] | OBLIGATOIRE | TP 8 | [ ] |
 | 18 | ajout de l'authentification | OBLIGATOIRE | TP 8 | [ ] |
-| 19 | affichage des seules galeries publiques | OBLIGATOIRE |  | [ ] |
-| 20 | contextualisation de la création d'une [galerie] en fonction du membre | OPTIONNEL |  | [ ] |
+| 19 | affichage des seules galeries publiques | OBLIGATOIRE |  | [x] |
+| 20 | contextualisation de la création d'une [galerie] en fonction du membre | OPTIONNEL |  | [x] |
 | 21 | contextualisation de l'ajout d'un [objet] à une [galerie] | OPTIONNEL |  | [ ] |
 | 22 | utilisation des messages flash pour les CRUDs | OPTIONNEL |  | [ ] |
 | 23 | ajout d'une gestion de marque-pages/panier dans le front-office | OPTIONNEL | TP 8 | [ ] |

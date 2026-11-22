@@ -12,6 +12,10 @@ use Symfony\Component\PasswordHasher\Hasher\UserPasswordHasherInterface;
 
 class AppFixtures extends Fixture
 {
+    // defines reference names for instances of Member
+    private const LUCAS = 'lucas';
+    private const ALICE = 'alice';
+
     // defines reference names for instances of Memory
     private const PARIS_MEMORY = 'paris-memory';
     private const NICE_MEMORY = 'nice-memory';
@@ -27,15 +31,15 @@ class AppFixtures extends Fixture
 
     /**
      * Generates initialization data for travels :
-     *  [name, description, published, memory references]
+     *  [creator reference, name, description, published, memory references]
      * @return \Generator
      */
     private static function travelsGenerator()
     {
-        yield ['Escapades en France', 'Petits séjours en France, entre Paris et la Méditerranée.', true, [self::PARIS_MEMORY, self::NICE_MEMORY]];
-        yield ['Capitales européennes', 'Les grandes villes visitées en Europe.', false, [self::PARIS_MEMORY, self::ROME_MEMORY]];
-        yield ['Villes d\'Europe', 'Londres et Lisbonne, deux séjours en ville.', true, [self::LONDON_MEMORY, self::LISBON_MEMORY]];
-        yield ['Montagne', 'Randonnées et grand air.', false, [self::ALPS_MEMORY]];
+        yield [self::LUCAS, 'Escapades en France', 'Petits séjours en France, entre Paris et la Méditerranée.', true, [self::PARIS_MEMORY, self::NICE_MEMORY]];
+        yield [self::LUCAS, 'Capitales européennes', 'Les grandes villes visitées en Europe.', false, [self::PARIS_MEMORY, self::ROME_MEMORY]];
+        yield [self::ALICE, 'Villes d\'Europe', 'Londres et Lisbonne, deux séjours en ville.', true, [self::LONDON_MEMORY, self::LISBON_MEMORY]];
+        yield [self::ALICE, 'Montagne', 'Randonnées et grand air.', false, [self::ALPS_MEMORY]];
     }
 
     public function load(ObjectManager $manager): void
@@ -43,6 +47,7 @@ class AppFixtures extends Fixture
         $this->createMember(
             $manager,
             'lucas@localhost',
+            self::LUCAS,
             'Souvenirs de voyage de Lucas',
             [
                 ['Week-end à Paris', 'Promenade dans Paris et visite des principaux monuments.', 'Paris, France', self::PARIS_MEMORY],
@@ -54,6 +59,7 @@ class AppFixtures extends Fixture
         $this->createMember(
             $manager,
             'alice@localhost',
+            self::ALICE,
             'Carnet de voyages d\'Alice',
             [
                 ['Séjour à Londres', 'Découverte de Westminster et des musées.', 'Londres, Royaume-Uni', self::LONDON_MEMORY],
@@ -64,8 +70,11 @@ class AppFixtures extends Fixture
 
         $manager->flush();
 
-        foreach (self::travelsGenerator() as [$name, $description, $published, $memoryReferences]) {
+        foreach (self::travelsGenerator() as [$memberReference, $name, $description, $published, $memoryReferences]) {
+            // Retrieve the creator of the travel from its reference name
+            $member = $this->getReference($memberReference, Member::class);
             $travel = new Travel();
+            $travel->setCreator($member);
             $travel->setName($name);
             $travel->setDescription($description);
             $travel->setPublished($published);
@@ -82,6 +91,7 @@ class AppFixtures extends Fixture
     private function createMember(
         ObjectManager $manager,
         string $email,
+        string $memberReference,
         string $mindDescription,
         array $memoriesData
     ): void {
@@ -99,6 +109,10 @@ class AppFixtures extends Fixture
 
         $manager->persist($member);
         $manager->persist($mind);
+        $manager->flush();
+        // Once the Member instance has been saved to DB,
+        // it has a valid Id and can be saved as a future reference
+        $this->addReference($memberReference, $member);
 
         foreach ($memoriesData as $memoryData) {
             $memory = new Memory();

@@ -30,6 +30,10 @@ class Travel
     #[ORM\ManyToMany(targetEntity: Memory::class, inversedBy: 'travels')]
     private Collection $memories;
 
+    #[ORM\ManyToOne(inversedBy: 'travels')]
+    #[ORM\JoinColumn(nullable: false)]
+    private ?Member $creator = null;
+
     public function __construct()
     {
         $this->memories = new ArrayCollection();
@@ -96,6 +100,18 @@ class Travel
     public function removeMemory(Memory $memory): static
     {
         $this->memories->removeElement($memory);
+
+        return $this;
+    }
+
+    public function getCreator(): ?Member
+    {
+        return $this->creator;
+    }
+
+    public function setCreator(?Member $creator): static
+    {
+        $this->creator = $creator;
 
         return $this;
     }

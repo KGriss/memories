@@ -2,6 +2,7 @@
 
 namespace App\Controller;
 
+use App\Entity\Member;
 use App\Entity\Memory;
 use App\Entity\Travel;
 use App\Form\TravelType;
@@ -20,14 +21,15 @@ final class TravelController extends AbstractController
     public function index(TravelRepository $travelRepository): Response
     {
         return $this->render('travel/index.html.twig', [
-            'travel' => $travelRepository->findAll(),
+            'travel' => $travelRepository->findBy(['published' => true]),
         ]);
     }
 
-    #[Route('/new', name: 'app_travel_new', methods: ['GET', 'POST'])]
-    public function new(Request $request, EntityManagerInterface $entityManager): Response
+    #[Route('/new/{id}', name: 'app_travel_new', methods: ['GET', 'POST'])]
+    public function new(Request $request, EntityManagerInterface $entityManager, Member $member): Response
     {
         $travel = new Travel();
+        $travel->setCreator($member);
         $form = $this->createForm(TravelType::class, $travel);
         $form->handleRequest($request);
 
@@ -35,10 +37,13 @@ final class TravelController extends AbstractController
             $entityManager->persist($travel);
             $entityManager->flush();
 
-            return $this->redirectToRoute('app_travel_index', [], Response::HTTP_SEE_OTHER);
+            return $this->redirectToRoute('app_member_show',
+                                          ['id' => $member->getId()],
+                                          Response::HTTP_SEE_OTHER);
         }
 
         return $this->render('travel/new.html.twig', [
+            'member' => $member,
             'travel' => $travel,
             'form' => $form,
         ]);
@@ -92,7 +97,7 @@ final class TravelController extends AbstractController
         if ($form->isSubmitted() && $form->isValid()) {
             $entityManager->flush();
 
-            return $this->redirectToRoute('app_travel_index', [], Response::HTTP_SEE_OTHER);
+            return $this->redirectToRoute('app_member_show', ['id' => $travel->getCreator()->getId()], Response::HTTP_SEE_OTHER);
         }
 
         return $this->render('travel/edit.html.twig', [
@@ -104,11 +109,12 @@ final class TravelController extends AbstractController
     #[Route('/{id}', name: 'app_travel_delete', methods: ['POST'])]
     public function delete(Request $request, Travel $travel, EntityManagerInterface $entityManager): Response
     {
+        $member = $travel->getCreator();
         if ($this->isCsrfTokenValid('delete'.$travel->getId(), $request->getPayload()->getString('_token'))) {
             $entityManager->remove($travel);
             $entityManager->flush();
         }
 
-        return $this->redirectToRoute('app_travel_index', [], Response::HTTP_SEE_OTHER);
+        return $this->redirectToRoute('app_member_show', ['id' => $member->getId()], Response::HTTP_SEE_OTHER);
     }
 }

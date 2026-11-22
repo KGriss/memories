@@ -20,5 +20,39 @@
 
     <a href="{{ path('app_mind_show', {'id' : member.mind.id}) }}"> mon inventaire </a>
 
+    <h2>Travels</h2>
+
+    <table class="table">
+        <thead>
+            <tr>
+                <th>Id</th>
+                <th>Name</th>
+                <th>Description</th>
+                <th>Published</th>
+                <th>actions</th>
+            </tr>
+        </thead>
+        <tbody>
+        {% for travel in member.travels %}
+            <tr>
+                <td>{{ travel.id }}</td>
+                <td>{{ travel.name }}</td>
+                <td>{{ travel.description }}</td>
+                <td>{{ travel.published ? 'Yes' : 'No' }}</td>
+                <td>
+                    <a href="{{ path('app_travel_show', {'id': travel.id}) }}">show</a>
+                    <a href="{{ path('app_travel_edit', {'id': travel.id}) }}">edit</a>
+                </td>
+            </tr>
+        {% else %}
+            <tr>
+                <td colspan="5">no records found</td>
+            </tr>
+        {% endfor %}
+        </tbody>
+    </table>
+
+    <a href="{{ path('app_travel_new', {'id': member.id}) }}">Create new</a>
+
     <a href="{{ path('app_member_index') }}">back to list</a>
 {% endblock %} {# main #}
