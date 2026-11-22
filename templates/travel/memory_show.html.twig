@@ -11,8 +11,8 @@
     <p><strong>Lieu :</strong> {{ memory.location }}</p>
 {% endif %}
 
-{% if memory.picture %}
-    <p><strong>Image :</strong> {{ memory.picture }}</p>
+{% if memory.imageName %}
+    <p><img class="img-fluid" src="{{ vich_uploader_asset(memory, 'imageFile') }}"/></p>
 {% endif %}
 
 <p>

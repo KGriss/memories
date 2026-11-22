@@ -8,6 +8,10 @@ use App\Entity\Mind;
 use App\Entity\Travel;
 use Doctrine\Bundle\FixturesBundle\Fixture;
 use Doctrine\Persistence\ObjectManager;
+use Symfony\Component\Filesystem\Exception\IOExceptionInterface;
+use Symfony\Component\Filesystem\Filesystem;
+use Symfony\Component\Filesystem\Path;
+use Symfony\Component\HttpFoundation\File\UploadedFile;
 use Symfony\Component\PasswordHasher\Hasher\UserPasswordHasherInterface;
 
 class AppFixtures extends Fixture
@@ -24,9 +28,76 @@ class AppFixtures extends Fixture
     private const ALPS_MEMORY = 'alps-memory';
     private const LISBON_MEMORY = 'lisbon-memory';
 
+    /**
+     * Resources directory for mock upload files prepared in advance, for use with
+     * prepareResourceImageUploadedFile()
+     *
+     * @var string
+     */
+    private const EXAMPLE_IMAGES_RESOURCES_DIR = __DIR__."/../../resources/images/";
+
+    /**
+     * Temporary filename saved for later cleanup necessary for prepareResourceImageUploadedFile()
+     *
+     * @var string
+     */
+    private ?string $tempfilename = null;
+
+    private Filesystem $filesystem;
+
     public function __construct(
         private UserPasswordHasherInterface $passwordHasher
     ) {
+        // needed by prepareResourceImageUploadedFile()
+        $this->filesystem = new Filesystem();
+    }
+
+    /**
+     * Prepare an UploadedFile to pass to VichUploader
+     *
+     * This will prepare a mock upload file for calls to VichUploader setImageFile() setter
+     * working on a copy of a resource file prepared in the project dir under
+     * class::EXAMPLE_IMAGES_RESOURCES_DIR
+     *
+     * @param string $imagefilename
+     * @return \Symfony\Component\HttpFoundation\File\UploadedFile
+     *
+     * after completion, one needs to call cleanupResourceImageUploadedFile()
+     *
+     * The principle (borrowed from https://github.com/dustin10/VichUploaderBundle/issues/70#issuecomment-307373831 )
+     * is to prepare an UploadedFile, but when saving processing occurs, in VichUploader machinery, the file would be removed.
+     * To preserve subsequent calls to fixture:load, we work on a copy of the resource file.
+     */
+    private function prepareResourceImageUploadedFile($imagefilename) {
+        // duplicate the file, so that the "upload" won't remove it
+        $src =  Path::join(self::EXAMPLE_IMAGES_RESOURCES_DIR, $imagefilename);
+        $ext = pathinfo($imagefilename, PATHINFO_EXTENSION);
+        $this->tempfilename =$this->filesystem->tempnam(sys_get_temp_dir(), 'fixture-upload-', '.'.$ext);
+        $this->filesystem->copy($src, $this->tempfilename, true);
+        $file = new UploadedFile(
+            $this->tempfilename,
+            $imagefilename,
+            mime_content_type($this->tempfilename),
+            null,
+            true //  Set test mode true !!! " Local files are used in test mode hence the code should not enforce HTTP uploads."
+            );
+        return $file;
+    }
+
+    /**
+     * Cleanup temporary files that may have been created by prepareResourceImageUploadedFile()
+     *
+     * The temp file created by prepareResourceImageUploadedFile() is saved in self::tempfilename
+     */
+    private function cleanupResourceImageUploadedFile() {
+        if ($this->tempfilename) {
+            try {
+                $this->filesystem->remove($this->tempfilename);
+            } catch (IOExceptionInterface $exception) {
+                echo "An error occurred while creating your directory at ".$exception->getPath();
+            }
+            $this->tempfilename = null;
+        }
     }
 
     /**
@@ -50,9 +121,9 @@ class AppFixtures extends Fixture
             self::LUCAS,
             'Souvenirs de voyage de Lucas',
             [
-                ['Week-end à Paris', 'Promenade dans Paris et visite des principaux monuments.', 'Paris, France', self::PARIS_MEMORY],
-                ['Vacances à Nice', 'Quelques jours sur la Côte d\'Azur.', 'Nice, France', self::NICE_MEMORY],
-                ['Découverte de Rome', 'Visite du Colisée et du centre historique.', 'Rome, Italie', self::ROME_MEMORY],
+                ['Week-end à Paris', 'Promenade dans Paris et visite des principaux monuments.', 'Paris, France', self::PARIS_MEMORY, 'paris.png'],
+                ['Vacances à Nice', 'Quelques jours sur la Côte d\'Azur.', 'Nice, France', self::NICE_MEMORY, 'nice.png'],
+                ['Découverte de Rome', 'Visite du Colisée et du centre historique.', 'Rome, Italie', self::ROME_MEMORY, 'rome.png'],
             ]
         );
 
@@ -62,9 +133,9 @@ class AppFixtures extends Fixture
             self::ALICE,
             'Carnet de voyages d\'Alice',
             [
-                ['Séjour à Londres', 'Découverte de Westminster et des musées.', 'Londres, Royaume-Uni', self::LONDON_MEMORY],
-                ['Randonnée dans les Alpes', 'Randonnée avec plusieurs étapes en altitude.', 'Alpes, France', self::ALPS_MEMORY],
-                ['Voyage à Lisbonne', 'Découverte des quartiers historiques.', 'Lisbonne, Portugal', self::LISBON_MEMORY],
+                ['Séjour à Londres', 'Découverte de Westminster et des musées.', 'Londres, Royaume-Uni', self::LONDON_MEMORY, 'londres.png'],
+                ['Randonnée dans les Alpes', 'Randonnée avec plusieurs étapes en altitude.', 'Alpes, France', self::ALPS_MEMORY, 'alpes.png'],
+                ['Voyage à Lisbonne', 'Découverte des quartiers historiques.', 'Lisbonne, Portugal', self::LISBON_MEMORY, 'lisbonne.png'],
             ]
         );
 
@@ -119,7 +190,12 @@ class AppFixtures extends Fixture
             $memory->setName($memoryData[0]);
             $memory->setDescription($memoryData[1]);
             $memory->setLocation($memoryData[2]);
-            $memory->setPicture(null);
+            $imagefilename = $memoryData[4];
+            if($imagefilename) {
+                // prepare the mock uploaded file for VichUploader machinery
+                $file = $this->prepareResourceImageUploadedFile($imagefilename);
+                $memory->setImageFile($file);
+            }
 
             $mind->addMemory($memory);
             $manager->persist($memory);
@@ -127,6 +203,10 @@ class AppFixtures extends Fixture
             // Once the Memory instance has been saved to DB,
             // it has a valid Id and can be saved as a future reference
             $this->addReference($memoryData[3], $memory);
+            if($imagefilename) {
+                // cleanup the mock uploaded file temp files
+                $this->cleanupResourceImageUploadedFile();
+            }
         }
     }
 }

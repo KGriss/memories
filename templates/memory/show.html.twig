@@ -24,8 +24,12 @@
                 <td>{{ memory.location }}</td>
             </tr>
             <tr>
-                <th>Picture</th>
-                <td>{{ memory.picture }}</td>
+                <th>Image</th>
+                <td>
+                    {% if memory.imageName %}
+                        <img class="img-fluid" src="{{ vich_uploader_asset(memory, 'imageFile') }}"/>
+                    {% endif %}
+                </td>
             </tr>
         </tbody>
     </table>

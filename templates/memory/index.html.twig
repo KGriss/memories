@@ -12,7 +12,7 @@
                 <th>Name</th>
                 <th>Description</th>
                 <th>Location</th>
-                <th>Picture</th>
+                <th>Image</th>
                 <th>actions</th>
             </tr>
         </thead>
@@ -23,7 +23,7 @@
                 <td>{{ memory.name }}</td>
                 <td>{{ memory.description }}</td>
                 <td>{{ memory.location }}</td>
-                <td>{{ memory.picture }}</td>
+                <td>{{ memory.imageName }}</td>
                 <td>
                     <a href="{{ path('app_memory_show', {'id': memory.id}) }}">show</a>
                     <a href="{{ path('app_memory_edit', {'id': memory.id}) }}">edit</a>

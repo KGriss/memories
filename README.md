@@ -21,7 +21,7 @@ Les termes dans le code seront donc les suivants :\
 *utilisateur* : `user`
 
 Voici la spécification des classes :\
-`Memory` : name (string), description (string), location (string optionnal), picture (image optionnal)\
+`Memory` : name (string), description (string), location (string optionnal), imageFile (image optionnal, VichUploader)\
 `Mind` : description (string), memories (memory list)\
 `Travel` : name (string), description (string), published (boolean), frontPicture (image optionnal), member (Member, créateur), memories (memory list)\
 `Member` (utilisateur) : email (string), roles (list), password (string hashé), mind (Mind)
@@ -52,7 +52,7 @@ symfony console doctrine:schema:update
 
 ## Avancement du projet
 
-Prochaine étape : 14
+Prochaine étape : 15
 
 ## Pour tester le programme
 
