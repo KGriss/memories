@@ -52,7 +52,7 @@ symfony console doctrine:schema:update
 
 ## Avancement du projet
 
-Prochaine étape : 18
+Toutes les étapes du guide sont réalisées (voir TODO.md).
 
 ## Pour tester le programme
 

@@ -57,6 +57,8 @@ final class TravelController extends AbstractController
         if ($form->isSubmitted() && $form->isValid()) {
             $entityManager->persist($travel);
             $entityManager->flush();
+            // Make sure message will be displayed after redirect
+            $this->addFlash('message', 'Voyage bien ajouté');
 
             return $this->redirectToRoute('app_member_show',
                                           ['id' => $member->getId()],
@@ -132,6 +134,70 @@ final class TravelController extends AbstractController
         ]);
     }
 
+    /**
+     * Mark a memory of a travel as bookmarked in the user's session (or unmark it)
+     *
+     * @param Travel $travel the travel which displays the memory (galerie)
+     * @param Memory $memory the memory to bookmark (objet)
+     */
+    #[Route('/{travel_id}/memory/{memory_id}/mark',
+        methods: ['GET'],
+        name: 'app_travel_memory_mark',
+        requirements: ['travel_id' => '\d+',
+                       'memory_id' => '\d+'
+                      ])]
+    public function memoryMark(
+        Request $request,
+        #[MapEntity(id: 'travel_id')]
+        Travel $travel,
+        #[MapEntity(id: 'memory_id')]
+        Memory $memory
+    ): Response
+    {
+        if(! $travel->getMemories()->contains($memory)) {
+            throw $this->createNotFoundException("Couldn't find such a memory in this travel!");
+        }
+        $hasAccess = false;
+        if($this->isGranted('ROLE_ADMIN') || $travel->isPublished()) {
+          $hasAccess = true;
+        }
+        else {
+          $member = $this->getUser();
+          if ( $member &&  ($member == $travel->getCreator()) ) {
+              $hasAccess = true;
+          }
+        }
+        if(! $hasAccess) {
+          throw $this->createAccessDeniedException("You cannot access the requested ressource!");
+        }
+
+        // Récupération du tableau d'id des favoris dans la session
+        $bookmarks = $request->getSession()->get('bookmarks');
+        if( ! is_array($bookmarks) ) {
+            $bookmarks = array();
+        }
+        $id = $memory->getId();
+        // si l'identifiant n'est pas présent dans le tableau des favoris, l'ajouter
+        if (! in_array($id, $bookmarks) )
+        {
+            $bookmarks[] = $id;
+            $this->addFlash('message', 'Souvenir ajouté aux favoris');
+        }
+        else
+        // sinon, le retirer du tableau
+        {
+            // substract two arrays
+            $bookmarks = array_diff($bookmarks, array($id));
+            $this->addFlash('message', 'Souvenir retiré des favoris');
+        }
+        // Sauvegarde du tableau d'id des favoris dans la session
+        $request->getSession()->set('bookmarks', $bookmarks);
+
+        return $this->redirectToRoute('app_travel_memory_show',
+                                      ['travel_id' => $travel->getId(),
+                                       'memory_id' => $memory->getId()]);
+    }
+
     #[Route('/{id}/edit', name: 'app_travel_edit', methods: ['GET', 'POST'])]
     #[IsGranted('ROLE_USER')]
     public function edit(Request $request, Travel $travel, EntityManagerInterface $entityManager): Response
@@ -146,6 +212,7 @@ final class TravelController extends AbstractController
 
         if ($form->isSubmitted() && $form->isValid()) {
             $entityManager->flush();
+            $this->addFlash('message', 'Voyage bien modifié');
 
             return $this->redirectToRoute('app_member_show', ['id' => $travel->getCreator()->getId()], Response::HTTP_SEE_OTHER);
         }
@@ -169,6 +236,7 @@ final class TravelController extends AbstractController
         if ($this->isCsrfTokenValid('delete'.$travel->getId(), $request->getPayload()->getString('_token'))) {
             $entityManager->remove($travel);
             $entityManager->flush();
+            $this->addFlash('message', 'Voyage bien supprimé');
         }
 
         return $this->redirectToRoute('app_member_show', ['id' => $member->getId()], Response::HTTP_SEE_OTHER);

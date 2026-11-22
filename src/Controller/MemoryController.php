@@ -49,6 +49,8 @@ final class MemoryController extends AbstractController
         if ($form->isSubmitted() && $form->isValid()) {
             $entityManager->persist($memory);
             $entityManager->flush();
+            // Make sure message will be displayed after redirect
+            $this->addFlash('message', 'Souvenir bien ajouté');
 
             return $this->redirectToRoute('app_mind_show',
                                           ['id' => $mind->getId()],
@@ -88,6 +90,7 @@ final class MemoryController extends AbstractController
 
         if ($form->isSubmitted() && $form->isValid()) {
             $entityManager->flush();
+            $this->addFlash('message', 'Souvenir bien modifié');
 
             return $this->redirectToRoute('app_mind_show', ['id' => $memory->getMind()->getId()], Response::HTTP_SEE_OTHER);
         }
@@ -110,6 +113,7 @@ final class MemoryController extends AbstractController
         if ($this->isCsrfTokenValid('delete'.$memory->getId(), $request->getPayload()->getString('_token'))) {
             $entityManager->remove($memory);
             $entityManager->flush();
+            $this->addFlash('message', 'Souvenir bien supprimé');
         }
 
         return $this->redirectToRoute('app_mind_show', ['id' => $mind->getId()], Response::HTTP_SEE_OTHER);

@@ -15,6 +15,17 @@
     <p><img class="img-fluid" src="{{ vich_uploader_asset(memory, 'imageFile') }}"/></p>
 {% endif %}
 
+{% set bookmarks = app.session.get('bookmarks')|default([]) %}
+<p>
+    <a href="{{ path('app_travel_memory_mark', {'travel_id': travel.id, 'memory_id': memory.id}) }}">
+    {% if memory.id in bookmarks %}
+        ★ Favori (retirer des favoris)
+    {% else %}
+        ☆ Ajouter aux favoris
+    {% endif %}
+    </a>
+</p>
+
 <p>
     <a href="{{ path('app_travel_show', { 'id': travel.id}) }}">back to travel</a>
 </p>
