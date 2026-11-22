@@ -10,6 +10,12 @@ use Symfony\Component\Routing\Attribute\Route;
 
 final class MindController extends AbstractController
 {
+    #[Route('/', name: 'home', methods: ['GET'])]
+    public function home(): Response
+    {
+        return $this->redirectToRoute('app_mind');
+    }
+
     #[Route('/mind', name: 'app_mind', methods: ['GET'])]
     public function index(MindRepository $mindRepository): Response
     {

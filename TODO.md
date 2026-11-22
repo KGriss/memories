@@ -25,7 +25,7 @@ Check-list d'avancement
 |  | - ajout de membre au modèle des données |  |  | [x] |
 |  | - ajout de l'association 1-1 entre membre et son inventaire |  |  | [x] |
 | 10 | intégration de menus de navigation | OBLIGATOIRE |  | [x] |
-| 11 | ajout de l'entité [galerie] au modèle des données et de l'association M-N avec [objet] | OBLIGATOIRE |  | [ ] |
+| 11 | ajout de l'entité [galerie] au modèle des données et de l'association M-N avec [objet] | OBLIGATOIRE |  | [x] |
 | 12 | ajout d'un contrôleur CRUD pour [galerie] | OBLIGATOIRE | TP 7 | [ ] |
 | 13 | ajout de fonctions CRUD pour [objet] | OBLIGATOIRE |  | [ ] |
 | 14 | ajout de la consultation des [objets] depuis les [galeries] publiques | OBLIGATOIRE |  | [ ] |

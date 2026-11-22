@@ -35,9 +35,7 @@
             </nav>
         {% endblock %}{# menu #}
 
-        <main class="container px-4 px-lg-5 my-5">
-            {% block body %}{% endblock %}
-        </main>
+        {% block body %}{% endblock %}{# body #}
 
         {% block javascripts %}
             <!-- Symfony asset_mapper / importmap -->
